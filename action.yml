@@ -12,7 +12,6 @@ runs:
       if: ${{ inputs.language == 'javascript' }}
       with:
         node-version: 20
-        cache: 'yarn'
     - name: Install license-checker
       if: ${{ inputs.language == 'javascript' }}
       shell: bash
