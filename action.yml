@@ -13,6 +13,10 @@ inputs:
     description: 'The list of safe licenses for node projects'
     required: false
     default: 'MIT, MIT OR X11, BSD, ISC, Apache-2.0, CC0-1.0, Unlicense, MPL-2.0, WTFPL, PSF, Python-2.0, Public Domain'
+  unsafe-licenses-node:
+    description: 'The list of unsafe licenses for node projects'
+    required: false
+    default: 'AGPL-3.0, GPL-3.0, GPL-2.0, GPL-1.0, LGPL-3.0, LGPL-2.1, LGPL-2.0, LGPL-2.0+, LGPL-2.1+, LGPL-3.0+, GPL-2.0+, GPL-3.0+, AGPL-3.0+, AGPL-3.0, AGPL-3.0+'
 runs:
   using: 'composite'
   steps:
@@ -41,4 +45,4 @@ runs:
     - name: Run Output
       if: ${{ inputs.language == 'javascript' }}
       shell: bash
-      run: license-checker --exclude ${{ inputs.safe-licenses-node }}
+      run: license-checker --exclude ${{ inputs.safe-licenses-node }} --failOn ${{ inputs.unsafe-licenses-node }}
