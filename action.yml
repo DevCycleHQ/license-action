@@ -16,7 +16,7 @@ inputs:
   unsafe-licenses-node:
     description: 'The list of unsafe licenses for node projects'
     required: true
-    default: 'AGPL-3.0, GPL-3.0, GPL-2.0, GPL-1.0, LGPL-3.0, LGPL-2.1, LGPL-2.0, LGPL-2.0+, LGPL-2.1+, LGPL-3.0+, GPL-2.0+, GPL-3.0+, AGPL-3.0+, AGPL-3.0, AGPL-3.0+'
+    default: 'AGPL-3.0;GPL-3.0;GPL-2.0;GPL-1.0;LGPL-3.0;LGPL-2.1;LGPL-2.0;LGPL-2.0+;LGPL-2.1+;LGPL-3.0+;GPL-2.0+;GPL-3.0+;AGPL-3.0+;AGPL-3.0;AGPL-3.0+'
 runs:
   using: 'composite'
   steps:
@@ -36,7 +36,7 @@ runs:
     - name: Check licenses
       if: ${{ inputs.language == 'javascript' }}
       shell: bash
-      run: license-checker --exclude ${{ inputs.safe-licenses-node }} --json > licenses.json
+      run: license-checker --exclude "${{ inputs.safe-licenses-node }}" --json > licenses.json
     - name: Upload license report
       if: ${{ inputs.language == 'javascript' }}
       uses: actions/upload-artifact@v4
@@ -46,4 +46,4 @@ runs:
     - name: Run Output
       if: ${{ inputs.language == 'javascript' }}
       shell: bash
-      run: license-checker --exclude ${{ inputs.safe-licenses-node }} --failOn ${{ inputs.unsafe-licenses-node }}
+      run: license-checker --exclude "${{ inputs.safe-licenses-node }}" --failOn "${{ inputs.unsafe-licenses-node }}"
