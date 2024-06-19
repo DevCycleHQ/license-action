@@ -24,6 +24,7 @@ runs:
       if: ${{ inputs.language == 'javascript' }}
       with:
         node-version: 20
+        cache: '${{ inputs.package-manager }}'
     - name: Install dependencies
       if: ${{ inputs.language == 'javascript' }}
       shell: bash
