@@ -5,6 +5,14 @@ inputs:
     description: 'The language of the project'
     required: true
     default: 'javascript'
+  package-manager:
+    description: 'The package manager of the project'
+    required: true
+    default: 'yarn'
+  safe-licenses-node:
+    description: 'The list of safe licenses for node projects'
+    required: false
+    default: 'MIT, MIT OR X11, BSD, ISC, Apache-2.0, CC0-1.0, Unlicense, MPL-2.0, WTFPL, PSF, Python-2.0, Public Domain'
 runs:
   using: 'composite'
   steps:
@@ -12,6 +20,10 @@ runs:
       if: ${{ inputs.language == 'javascript' }}
       with:
         node-version: 20
+    - name: Install dependencies
+      if: ${{ inputs.language == 'javascript' }}
+      shell: bash
+      run: ${{ inputs.package-manager }} install
     - name: Install license-checker
       if: ${{ inputs.language == 'javascript' }}
       shell: bash
@@ -19,7 +31,7 @@ runs:
     - name: Check licenses
       if: ${{ inputs.language == 'javascript' }}
       shell: bash
-      run: license-checker --json > licenses.json
+      run: license-checker --exclude ${{ inputs.safe-licenses-node }} --json > licenses.json
     - name: Upload license report
       if: ${{ inputs.language == 'javascript' }}
       uses: actions/upload-artifact@v4
@@ -29,4 +41,4 @@ runs:
     - name: Run Output
       if: ${{ inputs.language == 'javascript' }}
       shell: bash
-      run: license-checker --start .
+      run: license-checker --exclude ${{ inputs.safe-licenses-node }}
