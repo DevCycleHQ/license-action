@@ -31,4 +31,4 @@ runs:
     - name: Run Output
       if: ${{ inputs.language == 'javascript' }}
       shell: bash
-      run: license-checker
+      run: echo $PWD; license-checker
