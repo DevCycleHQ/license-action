@@ -30,4 +30,4 @@ runs:
     - name: Run Output
       if: ${{ inputs.language == 'javascript' }}
       shell: bash
-      run: license-checker --start ./package.json
+      run: license-checker --start .
