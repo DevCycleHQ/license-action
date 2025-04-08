@@ -20,29 +20,38 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: Enable Corepack
+      shell: bash
+      run: corepack enable
+
     - uses: actions/setup-node@v4
       if: ${{ inputs.language == 'javascript' }}
       with:
-        node-version: 20
+        node-version: 22
         cache: '${{ inputs.package-manager }}'
+
     - name: Install dependencies
       if: ${{ inputs.language == 'javascript' }}
       shell: bash
       run: ${{ inputs.package-manager }} install
+
     - name: Install license-checker
       if: ${{ inputs.language == 'javascript' }}
       shell: bash
       run: npm install -g license-checker
+
     - name: Check licenses
       if: ${{ inputs.language == 'javascript' }}
       shell: bash
       run: license-checker --exclude "${{ inputs.safe-licenses-node }}" --json > licenses.json
+
     - name: Upload license report
       if: ${{ inputs.language == 'javascript' }}
       uses: actions/upload-artifact@v4
       with:
         name: licenses
         path: licenses.json
+        
     - name: Run Output
       if: ${{ inputs.language == 'javascript' }}
       shell: bash
