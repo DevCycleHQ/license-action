@@ -17,6 +17,10 @@ inputs:
     description: 'The list of unsafe licenses for node projects'
     required: true
     default: 'AGPL-3.0;GPL-3.0;GPL-2.0;GPL-1.0;LGPL-3.0;LGPL-2.1;LGPL-2.0;LGPL-2.0+;LGPL-2.1+;LGPL-3.0+;GPL-2.0+;GPL-3.0+;AGPL-3.0+;AGPL-3.0;AGPL-3.0+;LGPL-3.0-or-later'
+  exclude-packages-node:
+    description: 'List of packages to exclude from filtering; to allow mis-identified packages'
+    required: true
+    default: '@img/sharp-libvips-darwin-arm64'
 runs:
   using: 'composite'
   steps:
@@ -43,7 +47,7 @@ runs:
     - name: Check licenses
       if: ${{ inputs.language == 'javascript' }}
       shell: bash
-      run: license-checker --exclude "${{ inputs.safe-licenses-node }}" --json > licenses.json
+      run: license-checker --exclude "${{ inputs.safe-licenses-node }}" --excludePackages "${{ inputs.exclude-packages-node }}" --json > licenses.json
 
     - name: Upload license report
       if: ${{ inputs.language == 'javascript' }}
@@ -55,4 +59,4 @@ runs:
     - name: Run Output
       if: ${{ inputs.language == 'javascript' }}
       shell: bash
-      run: license-checker --exclude "${{ inputs.safe-licenses-node }}" --failOn "${{ inputs.unsafe-licenses-node }}"
+      run: license-checker --exclude "${{ inputs.safe-licenses-node }}" --failOn "${{ inputs.unsafe-licenses-node }}" --excludePackages "${{ inputs.exclude-packages-node }}"
