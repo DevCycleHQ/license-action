@@ -20,7 +20,7 @@ inputs:
   exclude-packages-node:
     description: 'List of packages to exclude from filtering; to allow mis-identified packages'
     required: true
-    default: '@img/sharp-libvips-darwin-arm64@1.2.4'
+    default: '@img/sharp-libvips-darwin-arm64@1.2.4;@img/sharp-libvips-darwin64@1.2.0'
 runs:
   using: 'composite'
   steps:
