@@ -28,7 +28,7 @@ runs:
       shell: bash
       run: corepack enable
 
-    - uses: actions/setup-node@v4
+    - uses: actions/setup-node@v7
       if: ${{ inputs.language == 'javascript' }}
       with:
         node-version: 22
@@ -51,7 +51,7 @@ runs:
 
     - name: Upload license report
       if: ${{ inputs.language == 'javascript' }}
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: licenses
         path: licenses.json
